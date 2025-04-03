@@ -1,0 +1,55 @@
+
+
+```{r}
+# install.packages("forecast")
+```
+
+```{r}
+data = read.csv("dataset/hungary_chickenpox.csv")
+inds = seq(as.Date("2005-01-03"), as.Date("2014-12-29"),by="week")
+data.ts = ts(data$BUDAPEST, start=c(2005,as.numeric(format(inds[1],
+"%j"))), freq=52)
+
+data.ts
+```
+```{r}
+boxplot(data.ts)
+sum(is.na(data.ts))
+```
+
+```{r}
+plot(data.ts, type="l")
+
+data.ts.Y = diff(data.ts)
+plot(data.ts.Y, type="l")
+monthplot(data.ts.Y)
+```
+```{r}
+decomposed = decompose(data.ts)
+plot(decomposed)
+```
+```{r}
+holt_winters = HoltWinters(data.ts)
+plot(holt_winters)
+```
+
+```{r}
+# fit_arima = auto.arima(data.ts) #Obliczone i mam w pamieci, jesli pierwsze uruchomienie to trzeba odkomentowac
+print(summary(fit_arima))
+plot(forecast(fit_arima, 5))
+```
+```{r}
+fit_ets = ets(data.ts)
+print(summary(fit_ets))
+plot(forecast(fit_ets, 5))
+```
+```{r}
+checkresiduals(fit_arima)
+checkresiduals(fit_ets)
+```
+
+```{r}
+plot(forecast(fit_arima, 52))
+plot(forecast(fit_ets, 52))
+```
+
