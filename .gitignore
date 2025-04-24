@@ -3,3 +3,5 @@
 .RData
 .Ruserdata
 .DS_Store
+/lab3/.vscode
+/lab3/venv
